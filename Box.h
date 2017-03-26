@@ -128,24 +128,15 @@ bool Box::operator==(const Box &src) {
 }
 
 bool Box::operator!=(const Box &src) {
-    if ( base != src.base )
-       { return true;
-       }
-    return false;
+    return !( operator==(src) );
 }
 
 bool Box::operator>=(const Box &src) {
-    if ( base >= src.base )
-       { return true;
-       }
-    return false;
+    return operator==(src) || operator>(src);
 }
 
 bool Box::operator<=(const Box &src) {
-    if ( base <= src.base )
-       { return true;
-       }
-    return false;
+    return !( operator>(src) );
 }
 
 bool Box::operator>(const Box &src) {
@@ -156,10 +147,7 @@ bool Box::operator>(const Box &src) {
 }
 
 bool Box::operator<(const Box &src) {
-    if ( base < src.base )
-       { return true;
-       }
-    return false;
+    return !( operator>=(src) );
 }
 
 ostream& operator<<(ostream &out, Box &src) {

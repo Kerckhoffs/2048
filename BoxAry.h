@@ -354,7 +354,7 @@ bool BoxAry::operator==(const BoxAry &src) {
 }
 
 bool BoxAry::operator!=(const BoxAry &src) {
-    return !( *this == src );
+    return !( operator==(src) );
 }
 
 ostream& operator<<(ostream &out, BoxAry &src) {
