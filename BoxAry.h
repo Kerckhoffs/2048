@@ -36,6 +36,7 @@ private:
 public:
     bool movePrChk(Direction dir);
     void moveNrmal(Direction dir);
+    Direction moveAuto();
 
     BoxAry& operator=(const BoxAry &src);
 
@@ -328,6 +329,128 @@ void BoxAry::moveNrmal(Direction dir) {
     prySetAsA();
 
     return;
+}
+
+Direction BoxAry::moveAuto() {
+          int cnh =     0;
+          int cnt =    -1;
+    Direction ans = ERROR;
+
+    for ( Direction d1=UP ; d1<ERROR ; d1=(Direction)(d1+1) )
+        { if ( !movePrChk(d1) )
+             { continue;
+             }
+
+          BoxAry t1(*this);
+          t1.moveNrmal(d1);
+
+          int c = 0;
+          for ( int i=0 ; i<4 ; ++i )
+          for ( int j=0 ; j<4 ; ++j )
+           if ( t1.ary[i][j].empty() )
+              { ++c;
+              }
+
+          if ( ( c > cnt ) || ( c == cnt && 1 > cnh ) )
+             {
+               cnh =  1;
+               cnt =  c;
+               ans = d1;
+             }
+
+          for ( Direction d2=UP ; d2<ERROR ; d2=(Direction)(d2+1) )
+              { if ( !movePrChk(d2) )
+                   { continue;
+                   }
+
+                BoxAry t2(t1);
+                t2.moveNrmal(d2);
+
+                int c = 0;
+                for ( int i=0 ; i<4 ; ++i )
+                for ( int j=0 ; j<4 ; ++j )
+                 if ( t2.ary[i][j].empty() )
+                    { ++c;
+                    }
+
+                if ( ( c+1 > cnt ) || ( c+1 == cnt && 2 > cnh ) )
+                   {
+                     cnh =   2;
+                     cnt = c+1;
+                     ans =  d1;
+                   }
+
+                for ( Direction d3=UP ; d3<ERROR ; d3=(Direction)(d3+1) )
+                    { if ( !movePrChk(d3) )
+                         { continue;
+                         }
+
+                      BoxAry t3(t2);
+                      t3.moveNrmal(d3);
+
+                      int c = 0;
+                      for ( int i=0 ; i<4 ; ++i )
+                      for ( int j=0 ; j<4 ; ++j )
+                       if ( t3.ary[i][j].empty() )
+                          { ++c;
+                          }
+
+                      if ( ( c+2 > cnt ) || ( c+2 == cnt && 3 > cnh ) )
+                         {
+                           cnh =   3;
+                           cnt = c+2;
+                           ans =  d1;
+                         }
+
+                      for ( Direction d4=UP ; d4<ERROR ; d4=(Direction)(d4+1) )
+                          { if ( !movePrChk(d4) )
+                               { continue;
+                               }
+
+                            BoxAry t4(t3);
+                            t4.moveNrmal(d4);
+
+                            int c = 0;
+                            for ( int i=0 ; i<4 ; ++i )
+                            for ( int j=0 ; j<4 ; ++j )
+                             if ( t4.ary[i][j].empty() )
+                                { ++c;
+                                }
+
+                            if ( ( c+3 > cnt ) || ( c+3 == cnt && 4 > cnh ) )
+                               {
+                                 cnh =   4;
+                                 cnt = c+3;
+                                 ans =  d1;
+                               }
+
+                            for ( Direction d5=UP ; d5<ERROR ; d5=(Direction)(d5+1) )
+                                { if ( !movePrChk(d5) )
+                                     { continue;
+                                     }
+
+                                  BoxAry t5(t4);
+                                  t5.moveNrmal(d5);
+
+                                  int c = 0;
+                                  for ( int i=0 ; i<4 ; ++i )
+                                  for ( int j=0 ; j<4 ; ++j )
+                                   if ( t5.ary[i][j].empty() )
+                                      { ++c;
+                                      }
+
+                                  if ( ( c+4 > cnt ) || ( c+4 == cnt && 5 > cnh ) )
+                                     {
+                                       cnh =   5;
+                                       cnt = c+4;
+                                       ans =  d1;
+                                     }
+                                }
+                          }
+                    }
+              }
+        }
+    return ans;
 }
 
 BoxAry& BoxAry::operator=(const BoxAry &src) {

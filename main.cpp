@@ -18,8 +18,7 @@ enum Direction {
 
 #include "BoxAry.h"
 
-Direction C2D(char dir);
-void check(char &dir, BoxAry &ary);
+char D2C(Direction dir);
 void check(char &choice);
 
 int main()
@@ -59,46 +58,36 @@ int main()
               }
          }
 
-      char dir;
-      cout << "[W/A/S/D]? ";
-      cin >> dir;  check(dir, ary);
-      cout << endl;
+      if ( false )
+         {
+           cout << "請按 Enter 鍵繼續...";
+           cin.get();
+         }
 
-      ary.moveNrmal(C2D(dir));
+      Direction dir = ary.moveAuto();
+      cout << "[W/A/S/D]? " << D2C(dir) << endl << endl;
+
+      ary.moveNrmal(dir);
     }
 
     return 0;
 }
 
-Direction C2D(char dir)
+char D2C(Direction dir)
 {
-    if ( dir == 'W' || dir == 'w' )
-       { return UP;
+    if ( dir == UP )
+       { return 'W';
        }
-    if ( dir == 'S' || dir == 's' )
-       { return DOWN;
+    if ( dir == DOWN )
+       { return 'S';
        }
-    if ( dir == 'A' || dir == 'a' )
-       { return LEFT;
+    if ( dir == LEFT )
+       { return 'A';
        }
-    if ( dir == 'D' || dir == 'd' )
-       { return RIGHT;
+    if ( dir == RIGHT )
+       { return 'D';
        }
-    return ERROR;
-}
-
-void check(char &dir, BoxAry &ary)
-{
-    if ( !cin.fail() )
-    if ( C2D(dir) != ERROR )
-    if ( ary.movePrChk(C2D(dir)) )
-       return;
-
-    cout << "不允許的操作, 請再次輸入: ";
-    cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cin >> dir;
-
-    return check(dir, ary);
+    return '*';
 }
 
 void check(char &choice)
