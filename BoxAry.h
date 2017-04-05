@@ -337,11 +337,10 @@ Direction BoxAry::moveAuto() {
     Direction ans = ERROR;
 
     for ( Direction d1=UP ; d1<ERROR ; d1=(Direction)(d1+1) )
-        { if ( !movePrChk(d1) )
-             { continue;
-             }
-
+        {
           BoxAry t1(*this);
+          if ( !t1.movePrChk(d1) )
+              continue;
           t1.moveNrmal(d1);
 
           int c = 0;
@@ -359,11 +358,10 @@ Direction BoxAry::moveAuto() {
              }
 
           for ( Direction d2=UP ; d2<ERROR ; d2=(Direction)(d2+1) )
-              { if ( !movePrChk(d2) )
-                   { continue;
-                   }
-
+              {
                 BoxAry t2(t1);
+                if ( !t2.movePrChk(d2) )
+                    continue;
                 t2.moveNrmal(d2);
 
                 int c = 0;
@@ -381,11 +379,10 @@ Direction BoxAry::moveAuto() {
                    }
 
                 for ( Direction d3=UP ; d3<ERROR ; d3=(Direction)(d3+1) )
-                    { if ( !movePrChk(d3) )
-                         { continue;
-                         }
-
+                    {
                       BoxAry t3(t2);
+                      if ( !t3.movePrChk(d3) )
+                          continue;
                       t3.moveNrmal(d3);
 
                       int c = 0;
@@ -403,11 +400,10 @@ Direction BoxAry::moveAuto() {
                          }
 
                       for ( Direction d4=UP ; d4<ERROR ; d4=(Direction)(d4+1) )
-                          { if ( !movePrChk(d4) )
-                               { continue;
-                               }
-
+                          {
                             BoxAry t4(t3);
+                            if ( !t4.movePrChk(d4) )
+                                continue;
                             t4.moveNrmal(d4);
 
                             int c = 0;
@@ -425,11 +421,10 @@ Direction BoxAry::moveAuto() {
                                }
 
                             for ( Direction d5=UP ; d5<ERROR ; d5=(Direction)(d5+1) )
-                                { if ( !movePrChk(d5) )
-                                     { continue;
-                                     }
-
+                                {
                                   BoxAry t5(t4);
+                                  if ( !t5.movePrChk(d5) )
+                                      continue;
                                   t5.moveNrmal(d5);
 
                                   int c = 0;
