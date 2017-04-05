@@ -8,7 +8,7 @@ private:
     int  score;
 
     static const int high = 2048;
-    static const int deep =    8;
+    static const int deep =    7;
 
 public:
     BoxAry();
