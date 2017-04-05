@@ -64,8 +64,10 @@ int main()
            cin.get();
          }
 
+      cout << "[W/A/S/D]? ";
+
       Direction dir = ary.moveAuto();
-      cout << "[W/A/S/D]? " << D2C(dir) << endl << endl;
+      cout << D2C(dir) << endl << endl;
 
       ary.moveNrmal(dir);
     }
