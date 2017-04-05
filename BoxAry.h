@@ -32,6 +32,8 @@ public:
 
 private:
     void moveNoChk(Direction dir);
+    void moveAuto(int &cnh, int &cnt, Direction &ans,
+                  const BoxAry &src, int h);
 
 public:
     bool movePrChk(Direction dir);
@@ -243,6 +245,42 @@ void BoxAry::moveNoChk(Direction dir) {
     return;
 }
 
+void BoxAry::moveAuto(int &cnh, int &cnt, Direction &ans, const BoxAry &src, int h) {
+    static Direction fst;
+
+    if ( h > 8 )
+       { return;
+       }
+
+    for ( Direction dir=UP ; dir<ERROR ; dir=(Direction)(dir+1) )
+        {
+          if ( h == 1 )
+              fst = dir;
+
+          BoxAry tmp(src);
+          if ( !tmp.movePrChk(dir) )
+              continue;
+          tmp.moveNrmal(dir);
+
+          int c = 0;
+          for ( int i=0 ; i<4 ; ++i )
+          for ( int j=0 ; j<4 ; ++j )
+           if ( tmp.ary[i][j].empty() )
+              { ++c;
+              }
+
+          if ( ( c+h-1 > cnt ) || ( c+h-1 == cnt && h > cnh ) )
+             {
+               cnh =     h;
+               cnt = c+h-1;
+               ans =   fst;
+             }
+
+          moveAuto(cnh, cnt, ans, tmp, h+1);
+        }
+    return;
+}
+
 bool BoxAry::movePrChk(Direction dir) {
     BoxAry tmp(*this);
 
@@ -336,115 +374,8 @@ Direction BoxAry::moveAuto() {
           int cnt =    -1;
     Direction ans = ERROR;
 
-    for ( Direction d1=UP ; d1<ERROR ; d1=(Direction)(d1+1) )
-        {
-          BoxAry t1(*this);
-          if ( !t1.movePrChk(d1) )
-              continue;
-          t1.moveNrmal(d1);
+    moveAuto(cnh, cnt, ans, *this, 1);
 
-          int c = 0;
-          for ( int i=0 ; i<4 ; ++i )
-          for ( int j=0 ; j<4 ; ++j )
-           if ( t1.ary[i][j].empty() )
-              { ++c;
-              }
-
-          if ( ( c > cnt ) || ( c == cnt && 1 > cnh ) )
-             {
-               cnh =  1;
-               cnt =  c;
-               ans = d1;
-             }
-
-          for ( Direction d2=UP ; d2<ERROR ; d2=(Direction)(d2+1) )
-              {
-                BoxAry t2(t1);
-                if ( !t2.movePrChk(d2) )
-                    continue;
-                t2.moveNrmal(d2);
-
-                int c = 0;
-                for ( int i=0 ; i<4 ; ++i )
-                for ( int j=0 ; j<4 ; ++j )
-                 if ( t2.ary[i][j].empty() )
-                    { ++c;
-                    }
-
-                if ( ( c+1 > cnt ) || ( c+1 == cnt && 2 > cnh ) )
-                   {
-                     cnh =   2;
-                     cnt = c+1;
-                     ans =  d1;
-                   }
-
-                for ( Direction d3=UP ; d3<ERROR ; d3=(Direction)(d3+1) )
-                    {
-                      BoxAry t3(t2);
-                      if ( !t3.movePrChk(d3) )
-                          continue;
-                      t3.moveNrmal(d3);
-
-                      int c = 0;
-                      for ( int i=0 ; i<4 ; ++i )
-                      for ( int j=0 ; j<4 ; ++j )
-                       if ( t3.ary[i][j].empty() )
-                          { ++c;
-                          }
-
-                      if ( ( c+2 > cnt ) || ( c+2 == cnt && 3 > cnh ) )
-                         {
-                           cnh =   3;
-                           cnt = c+2;
-                           ans =  d1;
-                         }
-
-                      for ( Direction d4=UP ; d4<ERROR ; d4=(Direction)(d4+1) )
-                          {
-                            BoxAry t4(t3);
-                            if ( !t4.movePrChk(d4) )
-                                continue;
-                            t4.moveNrmal(d4);
-
-                            int c = 0;
-                            for ( int i=0 ; i<4 ; ++i )
-                            for ( int j=0 ; j<4 ; ++j )
-                             if ( t4.ary[i][j].empty() )
-                                { ++c;
-                                }
-
-                            if ( ( c+3 > cnt ) || ( c+3 == cnt && 4 > cnh ) )
-                               {
-                                 cnh =   4;
-                                 cnt = c+3;
-                                 ans =  d1;
-                               }
-
-                            for ( Direction d5=UP ; d5<ERROR ; d5=(Direction)(d5+1) )
-                                {
-                                  BoxAry t5(t4);
-                                  if ( !t5.movePrChk(d5) )
-                                      continue;
-                                  t5.moveNrmal(d5);
-
-                                  int c = 0;
-                                  for ( int i=0 ; i<4 ; ++i )
-                                  for ( int j=0 ; j<4 ; ++j )
-                                   if ( t5.ary[i][j].empty() )
-                                      { ++c;
-                                      }
-
-                                  if ( ( c+4 > cnt ) || ( c+4 == cnt && 5 > cnh ) )
-                                     {
-                                       cnh =   5;
-                                       cnt = c+4;
-                                       ans =  d1;
-                                     }
-                                }
-                          }
-                    }
-              }
-        }
     return ans;
 }
 
