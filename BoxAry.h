@@ -8,6 +8,7 @@ private:
     int  score;
 
     static const int high = 2048;
+    static const int deep =    8;
 
 public:
     BoxAry();
@@ -248,7 +249,7 @@ void BoxAry::moveNoChk(Direction dir) {
 void BoxAry::moveAuto(int &cnh, int &cnt, Direction &ans, const BoxAry &src, int h) {
     static Direction fst;
 
-    if ( h > 8 )
+    if ( h > deep )
        { return;
        }
 
